@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<title>Chat</title>
+<head>
+    <style>
+        h1{text-align: center;
+        }
+        h2{text-align: center;
+        }
+        p{
+            margin-left: 2.5%;
+            color: #bb7a2a;
+            background: white;
+        }
+        body {
+            font-family: "Britannic Bold";
+            background-image: url('https://th.bing.com/th/id/R.75c7864105801544a5628a9772394dd1?rik=W%2btcWTJd6SnCfw&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fBlack-Abstract-HD-Wallpaper.jpg&ehk=PTbVfW5weijRZMES0idE3Sl2gQQmZ78G13ImYOchIG8%3d&risl=&pid=ImgRaw&r=0');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.8;
+            background-size: 100% 100%;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 70%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #22dcd3;
+        }
+        input[type="submit"] {
+            background-color: #22dcd3;
+            color: #000000;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 2px 2px;
+            cursor: pointer;
+            height: 50%;
+            width: 100%;
+            border-radius: 5px;
+
+        }
+
+        .form-row {
+            margin-left: 2.5%;
+            height: 60px;
+            width: 30%;
+            margin-left: 2.5%;
+            display: flex; /* Use flexbox to align items */
+            gap: 70%; /* Add some spacing between form elements */
+        }
+
+        .form-row form {
+            flex: 30; /* Allow forms to take up equal space */
+        }
+
+        .form-row1 {
+            margin-left: 2.5%;
+            height: 60px;
+            width: 90%;
+            margin-left: 2.5%;
+            display: inline; /* Use flexbox to align items */
+            gap: 10%; /* Add some spacing between form elements */
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: normal;
+            width: 80%;
+            margin: auto;
+            border: #2c4557;
+        }
+        .chat-message {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border: 1px solid #ddd;
+            padding: 10px;
+
+            border-radius: 15px;
+
+            opacity: 20%;
+        }
+        .chat-message > div {
+            flex-basis: 14%;
+        }
+        .chat-message > div:nth-child(1) {
+            flex-basis: 2%;
+        }
+        .sent {
+            background-color: #96fbd8; /* Change this to the color you want for messages sent by the user */
+            margin-left: 15%;
+            border-radius: 15px;
+            padding-left: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+
+        .received {
+            margin-right: 15%;
+            border-radius: 15px;
+            padding-left: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            background-color: #95dafb; /* Change this to the color you want for messages received by the user */
+        }
+
+        .form-row1 {
+            display: flex;
+            align-items: center; /* Vertically center the input and button */
+        }
+
+        .form-row1 input[type="text"] {
+            flex: 1; /* Expand the input to fill available space */
+            margin-right: 10px; /* Add some spacing between input and button */
+            width: 180%;
+        }
+
+        .form-row1 input[type="submit"] {
+            background-color: #22dcd3;
+            color: #000000;
+            border: none;
+            margin-left: 5px;
+            width: 20%;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+<h1 style="color: #a5defb">Chat</h1>
+<form th:action="@{/index/user/} + ${id}" method="post" style="width: 20%; margin-left: 2.5%">
+    <input id="logOut" name="newLink" th:value="@{redirect:/announcement/getOthers/} + ${id}" type="hidden">
+    <input type="submit" value="<< Back to announces "/>
+</form>
+<br>
+
+<div class="chat-container" th:each="msg : ${msgs}">
+    <div class="chat-message" th:class="${msg.sender.getId() == id} ? 'sent' : 'received'">
+        <!--        <div th:text="${msgStat.count}"></div>-->
+        <!--        <div th:text="${msg.sender.getId()} "></div>-->
+        <div th:text="'From: ' + ${msg.sender.getFirstName() + ' ' + msg.sender.getLastName()}" style="color: #4A6782; font-size: 10px;"></div>
+        <div th:text="${msg.msg}"></div>
+        <!--        <div th:text="${msg.receiver.getId()} "></div>-->
+        <!--        <div th:text="${msg.receiver.getFirstName() +' '+ msg.receiver.getLastName()} "></div>-->
+        <div th:text="${msg.date}" style="color: #4A6782; font-size: 10px;"></div>
+    </div>
+    <br>
+</div>
+
+<br><br>
+
+<form class="form-row1" th:action="@{/message/send}" method="post" >
+    <!--            <label for="sender">Sender: </label>-->
+    <input hidden="hidden" type="text" id="sender" name="sender" th:value="${id}" readonly required><br>
+
+    <!--            <label for="receiver">Receiver: </label>-->
+    <input hidden="hidden" type="text" id="receiver" name="receiver" th:value="${corespondentId}" readonly required><br>
+
+    <!--            <label for="msg">Message:</label>-->
+    <input type="text" id="msg" name="msg" required><br>
+
+    <input type="submit" value="Send">
+</form>
+
+
+
+<script>
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var path = window.location.pathname; // Get the current URL's path
+        var id = path.split('/').at(3);
+
+        var previousUrl = document.referrer; // Get the previous URL
+
+        var urlPattern = new RegExp('^http:\\/\\/localhost:8080\\/message\\/chat\\/' + id + '\\/[-0-9A-Za-z]*\\??$');
+
+        var urlToCompare1 = 'http://localhost:8080/message/messages/' + id + '?';
+        var urlToCompare2 = 'http://localhost:8080/announcement/getOthers/' + id ;
+        var urlToCompare3 = 'http://localhost:8080/announcement/getMine/' + id ;
+        var urlToCompare4 = 'http://localhost:8080/announcement/getMine/' + id + '?';
+
+        var urlToCompare10 = 'http://localhost:8080/announcement/getOthers/0/' + id + '?';
+        var urlToCompare11 = 'http://localhost:8080/announcement/getOthers/1/' + id + '?';
+        var urlToCompare12 = 'http://localhost:8080/announcement/getOthers/0/' + id;
+        var urlToCompare13 = 'http://localhost:8080/announcement/getOthers/1/' + id;
+
+        if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
+            && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
+            && !urlPattern.test(previousUrl)
+            && previousUrl !== urlToCompare10 && previousUrl !== urlToCompare11
+            && previousUrl !== urlToCompare12 && previousUrl !== urlToCompare13){
+            window.location.href = 'http://localhost:8080/index/HomePage';
+        }
+    });
+</script>
+<p th:text="${message}"></p>
+</body>
+</html>

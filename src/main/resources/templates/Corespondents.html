@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Corespondents</title>
+    <style>
+        h1{text-align: center;
+        }
+        h2{text-align: center;
+        }
+        p{
+            margin-left: 2.5%;
+            color: #bb7a2a;
+            background: white;
+        }
+        body {
+            font-family: "Britannic Bold";
+            background-image: url('https://th.bing.com/th/id/R.75c7864105801544a5628a9772394dd1?rik=W%2btcWTJd6SnCfw&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fBlack-Abstract-HD-Wallpaper.jpg&ehk=PTbVfW5weijRZMES0idE3Sl2gQQmZ78G13ImYOchIG8%3d&risl=&pid=ImgRaw&r=0');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.8;
+            background-size: 100% 100%;
+        }
+        table {
+            width: 95%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            overflow: auto;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #002e32;
+            color: #22dcd3;
+            font-size: 20px;
+            font-family: 'Courier New', monospace
+        }
+        tr:nth-child(even) {
+            background-color: #f7f7f7;
+        }
+        tr:nth-child(odd) {
+            background-color: rgb(255, 255, 255);
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        input[type="submit"] span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        input[type="submit"] span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        input[type="submit"] :hover span {
+            padding-right: 25px;
+        }
+
+        input[type="submit"] :hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #22dcd3;
+        }
+        input[type="submit"] {
+            background-color: #22dcd3;
+            color: #002e32;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 2px 2px;
+            cursor: pointer;
+            height: 50%;
+            width: 100%;
+            border-radius: 5px;
+
+        }
+
+        .form-row {
+            margin-right: 2.5%;
+            margin-left: 2.5%;
+            height: 60px;
+            width: 95%;
+            display: flex; /* Use flexbox to align items */
+            gap: 70%; /* Add some spacing between form elements */
+        }
+
+        .form-row form {
+            flex: 30; /* Allow forms to take up equal space */
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="color: #a5defb">Corespondents</h1>
+<div class="form-row">
+    <form th:action="@{/index/user/} + ${id}" method="post">
+        <input id="logOut" name="newLink" th:value="@{redirect:/announcement/getOthers/} + ${id}" type="hidden">
+        <input type="submit" value="<< Back to announces "/>
+    </form>
+</div>
+<br>
+<table id="myTable">
+    <tr>
+        <th></th>
+<!--        <th>Id</th>-->
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td></td>
+<!--        <td th:text="${user.id}"></td>-->
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td>
+
+            <form th:action="@{/message/chat/}+ ${id} + @{/} + ${user.id}" method="get">
+                <input type="submit" value="Check messages"  class="delete-button" readonly/>
+            </form>
+
+        </td>
+    </tr>
+</table>
+<script>
+
+
+
+
+    var table = document.getElementById("myTable");
+    for(var i = 1; i < table.rows.length; i++)
+    {
+        table.rows[i].cells[0].innerHTML = i;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var path = window.location.pathname; // Get the current URL's path
+        var id = path.split('/').pop();
+
+        var previousUrl = document.referrer; // Get the previous URL
+
+        var urlPattern1 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + '\\?categoryName=[^\\/]*$');
+
+        var urlPattern2 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + ';jsessionid=[^\\/]*$');
+        var urlToCompare1 = 'http://localhost:8080/announcement/getOthers/' + id;
+        var urlToCompare2 = 'http://localhost:8080/announcement/getMine/' + id;
+        var urlToCompare3 = 'http://localhost:8080/announcement/getMine/' + id + '?';
+        var urlToCompare10 = 'http://localhost:8080/announcement/getOthers/0/' + id + '?';
+        var urlToCompare11 = 'http://localhost:8080/announcement/getOthers/1/' + id + '?';
+        var urlToCompare12 = 'http://localhost:8080/announcement/getOthers/0/' + id;
+        var urlToCompare13 = 'http://localhost:8080/announcement/getOthers/1/' + id;
+
+        if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
+            && previousUrl !== urlToCompare3 && !urlPattern1.test(previousUrl)
+            && !urlToCompare2.test(previousUrl)
+
+            && previousUrl !== urlToCompare10 && previousUrl !== urlToCompare11
+            && previousUrl !== urlToCompare12 && previousUrl !== urlToCompare13){
+            window.location.href = 'http://localhost:8080/index/HomePage';
+        }
+    });
+
+</script>
+<p th:text="${message}"></p>
+</body>
+</html>

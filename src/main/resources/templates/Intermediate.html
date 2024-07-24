@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    window.onload = function() {
+        var previousUrl = window.location.href;
+        var form = document.forms[0];
+
+        var urlPattern1 = new RegExp('^http:\\/\\/localhost:8080\\/user\\/update\\/[^\\/]*$');
+        console.log(previousUrl);
+        console.log(urlPattern1.test(previousUrl));
+
+        if (previousUrl === "http://localhost:8080/user/insert") {
+            form.action = 'http://localhost:8080/rabbitmq/sender/insert';
+        } else if (urlPattern1.test(previousUrl)) {
+            form.action = 'http://localhost:8080/rabbitmq/sender/update';
+        } else {
+            form.action = 'http://localhost:8080/rabbitmq/sender/default';
+        }
+
+        // Submit the form after setting the action
+        form.submit();
+    }
+</script>
+<form method="POST">
+    <input type="hidden" name="firstName" th:value="${user.firstName}" />
+    <input type="hidden" name="lastName" th:value="${user.lastName}" />
+    <input type="hidden" name="email" th:value="${user.email}" />
+    <!-- Add more parameters as needed -->
+</form>
+</body>
+</html>

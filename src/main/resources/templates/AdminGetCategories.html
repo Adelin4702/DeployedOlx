@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Categories List</title>
+    <style>
+        h1{text-align: center;
+            text-decoration: underline;
+        }
+        p{
+            margin-left: 2.5%;
+            color: #bb7a2a;
+            background: white;
+        }
+        h2{text-align: center;
+        }
+        body {
+            font-family: "Britannic Bold";
+            background-image: url('https://th.bing.com/th/id/R.75c7864105801544a5628a9772394dd1?rik=W%2btcWTJd6SnCfw&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fBlack-Abstract-HD-Wallpaper.jpg&ehk=PTbVfW5weijRZMES0idE3Sl2gQQmZ78G13ImYOchIG8%3d&risl=&pid=ImgRaw&r=0');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.8;
+            background-size: 100% 100%;
+        }
+        table {
+            width: 95%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            overflow: auto;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #002e32;
+            color: #22dcd3;
+            font-size: 20px;
+            font-family: 'Courier New', monospace
+        }
+        tr:nth-child(even) {
+            background-color: #7fefab;
+        }
+        tr:nth-child(odd) {
+            background-color: #9ae2f1;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #002e32;
+            border: none;
+            color: #22dcd3;
+            text-align: center;
+            font-size: 16px;
+            padding: 6px;
+            width: 95%;
+            height: 40px;
+            margin-left: 2.5%;
+            transition: all 0.5s;
+            cursor: pointer;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        input[type="submitDelete"]{
+            background-color: #ff3c3c;
+            color: white;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 2px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            height: 50%;
+            width: 50%;
+        }
+        .button-delete span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button-delete span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button-delete:hover span {
+            padding-right: 25px;
+        }
+
+        .button-delete:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        .updateBtn{
+            background-color: #4c7eaf;
+            color: white;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 2px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            height: 50%;
+            width: 100%;
+        }
+
+        /* The Modal (background) */
+        .modalInsert {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modalUpdate {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modalInsert-content {
+            background-color: #a1e1d5;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            text-align: left;
+            width: 70%;
+        }
+
+        /* The Close Button */
+        .close1 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close1:hover,
+        .close1:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .formField {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 95%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #22dcd3;
+        }
+        input[type="submit"] {
+            background-color: #22dcd3;
+            color: #002e32;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 2px 2px;
+            cursor: pointer;
+            height: 50%;
+            width: 100%;
+            border-radius: 5px;
+
+        }
+        .form-row {
+            margin-right: 2.5%;
+            margin-left: 2.5%;
+            height: 60px;
+            width: 95%;
+            display: flex; /* Use flexbox to align items */
+            gap: 70%; /* Add some spacing between form elements */
+        }
+
+        .form-row form {
+            flex: 30; /* Allow forms to take up equal space */
+        }
+    </style>
+</head>
+<body>
+<div class="form-row">
+    <form th:action="@{/index/HomePage}" method="get">
+<!--        <input id="logOut" name="newLink" th:value="@{redirect:/index/HomePage}" type="hidden">-->
+        <input type="submit" value="Log Out"/>
+    </form>
+</div>
+<h1 style="color: #a5defb">Registered categories</h1>
+<div class="form-row">
+    <form th:action="@{/announcement/get}" method="get">
+<!--        <input id="newLink1" name="newLink" value="redirect:/announcement/get" type="hidden">-->
+        <input type="submit" value="<< Manage Announces"/>
+    </form>
+
+    <form th:action="@{/user/get}" method="get">
+<!--        <input id="newLink2" name="newLink" value="redirect:/user/get" type="hidden">-->
+        <input type="submit" value="Manage Users >>"/>
+    </form>
+</div>
+<br>
+
+<button id="insertBtn" class = "button" style="vertical-align:middle" ><span>Register new category</span></button><br>
+<div id="modalInsert" class="modalInsert">
+
+    <!-- Modal content -->
+    <div class="modalInsert-content">
+        <h2 class="modal-title" >Insert new user
+            <span class="close1">&times;</span>
+        </h2>
+        <form class="formField" th:action="@{/category/insert}" method="post" >
+            <label for="categoryName">Category Name:</label>
+            <input type="text" id="categoryName" name="categoryName" required><br>
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+
+</div>
+<br>
+<table id="myTable">
+    <tr>
+        <th></th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="category : ${categories}">
+        <td></td>
+        <td th:text="${category.id}"></td>
+        <td th:text="${category.categoryName}"></td>
+        <td>
+
+            <form th:action="@{/category/delete/} + ${category.id}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this item?');" class="delete-button" readonly/>
+            </form>
+
+            <button class="updateBtn"  style="vertical-align:middle" ><span>Update</span></button>
+            <div class="modalUpdate" >
+
+                <!-- Modal content -->
+                <div class="modalInsert-content">
+                    <h2 class="modal-title" >Update user
+                        <span class="close">&times;</span>
+                    </h2>
+                    <form class="formField" th:action="@{/category/update/} + ${category.id}" method="post">
+                        <input type="hidden" name="_method" value="put" />
+                        <label >Id:</label>
+                        <input type="text" th:value="${category.id}" name="id" readonly disabled><br>
+                        <label for="categoryName">Name:</label>
+                        <input type="text" th:value="${category.categoryName}" name="categoryName" required><br>
+                        <input type="submit" value="Update">
+                    </form>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+<script>
+
+    var modal = document.getElementById("modalInsert");
+    // Get the button that opens the modal
+    var btn = document.getElementById("insertBtn");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close1")[0];
+    // var span1 = document.getElementsByClassName("close")[1];
+
+    var btns = document.getElementsByClassName("updateBtn");
+    var modals = document.getElementsByClassName("modalUpdate");
+    var spans = document.getElementsByClassName("close");
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+    for(let i = 0; i < btns.length; i++){
+        btns[i].onclick = function() {
+            modals[i].style.display = "block";
+        }
+        spans[i].onclick = function() {
+            modals[i].style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modals[i]) {
+                modals[i].style.display = "none";
+            }
+        }
+    }
+
+
+    var table = document.getElementById("myTable");
+    for(var i = 1; i < table.rows.length; i++)
+    {
+        table.rows[i].cells[0].innerHTML = i;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var previousUrl = document.referrer; // Get the previous URL
+
+        var urlToCompare1 = 'http://localhost:8080/announcement/get';
+        var urlToCompare2 = 'http://localhost:8080/category/get';
+        var urlToCompare3 = 'http://localhost:8080/index/HomePage';
+
+        var urlToCompare4 = 'http://localhost:8080/user/get';
+
+        var urlToCompare5 = 'http://localhost:8080/announcement/get?';
+        var urlToCompare6 = 'http://localhost:8080/category/get?';
+        var urlToCompare7 = 'http://localhost:8080/index/HomePage?';
+
+        var urlToCompare8 = 'http://localhost:8080/user/get?';
+
+        if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
+            && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
+            && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
+            && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8){
+            window.location.href = 'http://localhost:8080/index/HomePage';
+        }
+    });
+
+</script>
+<p th:text="${message}"></p>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Users List</title>
+    <style>
+        h1{text-align: center;
+        }
+        body {
+            font-family: "Britannic Bold";
+            (background-image: url('data:image/png;base64,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');
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            opacity: 0.5;)
+            background-size: 100% 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #002e32;
+            color: #22dcd3;
+            font-size: 20px;
+            font-family: 'Courier New', monospace
+        }
+        tr:nth-child(even) {
+            background-color: #f7f7f7;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #002e32;
+            border: none;
+            color: #22dcd3;
+            text-align: center;
+            font-size: 16px;
+            padding: 6px;
+            width: 100%;
+            height: 40px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        .delete-button {
+            background-color: #ff3c3c;
+            color: white;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 2px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            height: 50%;
+            width: 100%;
+        }
+        .button-delete span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button-delete span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button-delete:hover span {
+            padding-right: 25px;
+        }
+
+        .button-delete:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        .update-button {
+            background-color: #4c7eaf;
+            color: white;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 2px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            height: 50%;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Registered users</h1>
+<br>
+<button onclick="window.location.href='/user/insert'" class="button" style="vertical-align:middle"><span>Register new user</button><br>
+<br>
+<table id="myTable">
+    <tr>
+        <th></th>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td></td>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.password}"></td>
+        <td>
+            <form th:action="@{/user/delete/} + ${user.id}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this item?');" class="delete-button"/>
+            </form>
+            <form th:action="@{/user/update/} + ${user.id}" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <input type="submit" value="Update" onclick="return confirm('Are you sure you want to update this item?');" class="update-button"/>
+            </form>
+            <!-- Your update form here -->
+        </td>
+    </tr>
+</table>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var path = window.location.pathname; // Get the current URL's path
+        var id = path.split('/').pop();
+
+        var previousUrl = document.referrer; // Get the previous URL
+        var urlToCompare1 = 'http://localhost:8080/index/redirect';
+        var urlToCompare2 = 'http://localhost:8080/announcement/get';
+        var urlToCompare3 = 'http://localhost:8080/category/get';
+
+
+        if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
+            && previousUrl !== urlToCompare3) {
+            window.location.href = 'http://localhost:8080/index/HomePage';
+        }
+    });
+</script>
+<p th:text="${message}"></p>
+</body>
+</html>
