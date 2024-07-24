@@ -5,4 +5,4 @@ RUN mvn clean package -DskipTests
 FROM openjdk:21-jdk-slim
 COPY --from=build /target/olxapplication-0.0.1-SNAPSHOT.jar olxDeployed.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "olxDeployed.jar"]
+ENTRYPOINT ["java", "-jar", "/target/olxapplication-0.0.1-SNAPSHOT.jar"]
