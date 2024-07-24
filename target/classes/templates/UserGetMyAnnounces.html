@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My announces</title>
+    <style>
+        h1{text-align: center;
+            text-decoration: underline;
+        }
+        h2{text-align: center;
+        }
+        p{
+            margin-left: 2.5%;
+            color: #bb7a2a;
+            background: white;
+        }
+        body {
+            font-family: "Britannic Bold";
+            background-image: url('https://th.bing.com/th/id/R.75c7864105801544a5628a9772394dd1?rik=W%2btcWTJd6SnCfw&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fBlack-Abstract-HD-Wallpaper.jpg&ehk=PTbVfW5weijRZMES0idE3Sl2gQQmZ78G13ImYOchIG8%3d&risl=&pid=ImgRaw&r=0');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.8;
+            background-size: 100% 100%;
+        }
+        table {
+            width: 95%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            overflow: auto;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #002e32;
+            color: #22dcd3;
+            font-size: 20px;
+            font-family: 'Courier New', monospace
+        }
+        tr:nth-child(even) {
+            background-color: #f7f7f7;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #002e32;
+            border: none;
+            color: #22dcd3;
+            text-align: center;
+            font-size: 16px;
+            padding: 6px;
+            width: 95%;
+            height: 40px;
+            margin-left: 2.5%;
+            transition: all 0.5s;
+            cursor: pointer;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        .button-delete span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button-delete span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button-delete:hover span {
+            padding-right: 25px;
+        }
+
+        .button-delete:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        .updateBtn{
+            background-color: #4c7eaf;
+            color: white;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 2px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            height: 50%;
+            width: 100%;
+        }
+
+        /* The Modal (background) */
+        .modalInsert {
+            display: flex; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 40px; /* Location of the box */
+            padding-right: 10%;
+            left: 0;
+            top: 0;
+            right: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modalUpdate {
+            display: flex; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 20px; /* Location of the box */
+            left: 0;
+            top: 0;
+            right: 0;
+            width: 120%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modalInsert-content {
+            background-color: #a1e1d5;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            text-align: left;
+            width: 90%;
+        }
+
+        /* The Close Button */
+        .close1 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close1:hover,
+        .close1:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .formField {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 95%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #22dcd3;
+        }
+        input[type="submit"] {
+            background-color: #22dcd3;
+            color: #002e32;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 2px 2px;
+            cursor: pointer;
+            height: 50%;
+            width: 100%;
+            border-radius: 5px;
+
+        }
+
+        .form-row form {
+            flex: 30; /* Allow forms to take up equal space */
+        }
+
+        .form-row1 {
+            margin-left: 2.5%;
+            height: 60px;
+            width: 95%;
+            display: flex; /* Use flexbox to align items */
+            gap: 5%; /* Add some spacing between form elements */
+        }
+
+        .form-row1 form {
+            flex: 30; /* Allow forms to take up equal space */
+        }
+        .announce-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .announce-card {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+            margin: 20px;
+            padding: 20px;
+            width: calc(80% - 40px); /* Adjust the width here */
+            box-sizing: border-box;
+            display: flex;
+        }
+        .announce-card img {
+            width: 300px; /* Adjust the image width here */
+            height: 300px; /* Adjust the image height here */
+            object-fit: cover;
+            margin-right: 20px;
+
+        }
+        .announce-card div {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: calc(100% - 220px); /* Adjust the div width here */
+        }
+        .announce-card div p {
+            display: flex;
+            justify-content: space-between;
+            line-height: 0.7; /* Adjust the line spacing here */
+            margin-bottom: 1px; /* Adjust the space between lines here */
+        }
+        .announce-card h2 {
+            color: #6c757d;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .announce-card p strong {
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+<div class="form-row1">
+    <form th:action="@{/announcement/getOthers/} + ${id}" method="get">
+        <input type="submit" value="Ckeck newest Announces"/>
+    </form>
+    <form th:action="@{/favourite/get/} + ${id}" method="get">
+        <input type="submit" value="Favourites"/>
+    </form>
+    <form th:action="@{/message/messages/} + ${id}" method="get">
+        <input type="submit" value="Messages"/>
+    </form>
+    <form th:action="@{/index/HomePage}" method="get">
+        <input type="submit" value="Log Out"/>
+    </form>
+</div>
+<h1 style="color: #a5defb">My announces</h1>
+
+<br>
+
+<button id="insertBtn" class = "button" style="vertical-align:middle" ><span>Register new announcement</span></button><br>
+<div id="modalInsert" class="modalInsert" style="display: none">
+
+    <!-- Modal content -->
+    <div class="modalInsert-content" >
+        <h2 class="modal-title" >Insert new announcement
+            <span class="close1">&times;</span>
+        </h2>
+        <form class="formField" th:action="@{/announcement/insertMine/} + ${id}" method="post" >
+            <label><strong>User: </strong></label>
+            <label th:text="${id}" style="line-height: 1.7"></label><br>
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required><br>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required><br>
+
+            <label for="price">Price:    </label>
+            <input type="number" step="any" id="price" name="price" required><br>
+
+            <label for="discount">Discount:    </label>
+            <input type="number" step="any" id="discount" name="discount" required><br>
+
+            <label for="imageURL">Image URL:</label>
+            <input type="text"  id="imageURL" name="imageURL" required><br>
+
+<!--            <label for="user">User:</label>-->
+            <input type="text" id="user" name="user" th:value="${id}" required readonly hidden="hidden">
+
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" required><br>
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+
+</div>
+<br>
+<div class="announce-container" th:each="announcement : ${announces}">
+    <div class="announce-card">
+        <img th:src="${announcement.imageURL}" alt="Announcement Image"> <!-- Add your image URL here -->
+        <div>
+            <h2 th:text="${announcement.title}"></h2>
+            <p><strong>ID:</strong> <span th:text="${announcement.id}"></span></p>
+            <p><strong>Description:</strong> <span th:text="${announcement.description}"></span></p>
+            <p><strong>Price:</strong> <span th:text="${announcement.price}"></span></p>
+            <p><strong>Discount:</strong> <span th:text="${announcement.discount}"></span></p>
+            <p><strong>New Price:</strong> <span th:text="${announcement.newPrice}"></span></p>
+            <p><strong>User:</strong> <span th:text="${announcement.user.getFirstName() + ' ' + announcement.user.getLastName()}"></span></p>
+            <p><strong>Category:</strong> <span th:text="${announcement.category.getCategoryName()}"></span></p>
+            <p><strong>Last Update:</strong> <span th:text="${announcement.date}"></span></p>
+            <!-- Add your form and other elements here -->
+            <br>
+
+            <form th:action="@{/announcement/deleteMine/} + ${id} +@{/} +${announcement.id}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this item?');" class="delete-button" readonly style="height: 80%; color: white; background-color: #ff3c3c"/>
+            </form>
+
+            <button class="updateBtn"  style="vertical-align:middle" ><span>Update</span></button>
+            <div class="modalUpdate" style="display: none; width : 100%">
+
+                <!-- Modal content -->
+                <div class="modalInsert-content">
+                    <h2 class="modal-title" >Update announcement
+                        <span class="close">&times;</span>
+                    </h2>
+                    <form class="formField" th:action="@{/announcement/updateMine/} + ${announcement.id}" method="post">
+                        <input type="hidden" name="_method" value="put" />
+
+                        <label><strong>ID: </strong></label>
+                        <label th:text="${announcement.id}" style="line-height: 1.7"></label><br>
+
+                        <label><strong>User: </strong></label>
+                        <label th:text="${announcement.user.getFirstName() + announcement.user.getLastName() }" style="line-height: 1.7"></label><br>
+
+                        <label><strong>Category: </strong></label>
+                        <label th:text="${announcement.category.getCategoryName()}" style="line-height: 1.7"></label><br>
+
+                        <input type="text" th:value="${announcement.id}" name="id" readonly disabled hidden="hidden">
+
+                        <label for="title">Title:</label>
+                        <input type="text" th:value="${announcement.title}" name="title" required><br>
+
+                        <label for="description">Description:</label>
+                        <input type="text" th:value="${announcement.description}" name="description" required><br>
+
+                        <label for="price">Price:</label>
+                        <input type="number" step="any" th:value="${announcement.price}" name="price" required><br>
+
+                        <label for="discount">Discount:</label>
+                        <input type="number" step="any" th:value="${announcement.discount}" class="discount" name="discount" required><br>
+
+                        <label for="imageURL">Image URL:</label>
+                        <input type="text"  th:value="${announcement.imageURL}" class="imageURL" name="imageURL" required><br>
+
+                        <!--                        <label for="user">User id:</label>-->
+                        <input type="text" th:value="${announcement.user.getId()}" name="user" readonly required hidden="hidden">
+
+                        <!--                        <label for="category">Category:</label>-->
+                        <input type="text" th:value="${announcement.category.getId()}" name="category" readonly required hidden="hidden">
+
+                        <input type="submit" value="Update">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var modal = document.getElementById("modalInsert");
+    // Get the button that opens the modal
+    var btn = document.getElementById("insertBtn");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close1")[0];
+    // var span1 = document.getElementsByClassName("close")[1];
+
+    var btns = document.getElementsByClassName("updateBtn");
+    var modals = document.getElementsByClassName("modalUpdate");
+    var spans = document.getElementsByClassName("close");
+
+    // When the announcement clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the announcement clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the announcement clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+    for(let i = 0; i < btns.length; i++){
+        btns[i].onclick = function() {
+            modals[i].style.display = "block";
+        }
+        spans[i].onclick = function() {
+            modals[i].style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modals[i]) {
+                modals[i].style.display = "none";
+            }
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var path = window.location.pathname; // Get the current URL's path
+        var id = path.split('/').pop();
+
+        var previousUrl = document.referrer; // Get the previous URL
+
+        // var urlPattern = new RegExp('^http://localhost:8080/message/chat/' + id + '/[^/]+$');
+        var urlPattern1 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + '\\?categoryName=[^\\/]*$');
+        var urlPattern2 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + ';jsessionid=[^\\/]*$');
+        var urlToCompare1 = 'http://localhost:8080/announcement/getOthers/' + id;
+        var urlToCompare2 = 'http://localhost:8080/announcement/getMine/' + id + '?';
+        var urlToCompare3 = 'http://localhost:8080/announcement/getMine/' + id ;
+        var urlToCompare4 = 'http://localhost:8080/announcement/getOthers/' + id + '?';
+        var urlToCompare10 = 'http://localhost:8080/announcement/getOthers/0/' + id + '?';
+        var urlToCompare11 = 'http://localhost:8080/announcement/getOthers/1/' + id + '?';
+        var urlToCompare12 = 'http://localhost:8080/announcement/getOthers/0/' + id;
+        var urlToCompare13 = 'http://localhost:8080/announcement/getOthers/1/' + id;
+
+        console.log('current path: ', path);
+        console.log('previous path: ', previousUrl);
+        console.log('id: ', id);
+        console.log('pattern: ', urlPattern1);
+        console.log('pattern response: ', urlPattern1.test(previousUrl));
+
+        if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare4
+            && previousUrl !== urlToCompare2 && previousUrl !== urlToCompare3
+            && !urlPattern1.test(previousUrl) && !urlPattern2.test(previousUrl)
+
+            && previousUrl !== urlToCompare10 && previousUrl !== urlToCompare11
+            && previousUrl !== urlToCompare12 && previousUrl !== urlToCompare13){
+            window.location.href = 'http://localhost:8080/index/HomePage';
+        }
+    });
+
+</script>
+<p th:text="${message}"></p>
+</body>
+</html>

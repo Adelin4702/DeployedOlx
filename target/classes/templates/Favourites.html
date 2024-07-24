@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Favourite announces</title>
+    <style>
+        h1{text-align: center;
+        }
+        h2{text-align: center;
+        }
+        h3{margin-left: 2.5%;
+            text-effect: emboss;
+        }
+        h5{margin-left: 2.5%;
+            text-decoration-line: underline;
+        }
+        p{
+            margin-left: 2.5%;
+            color: #bb7a2a;
+            background: white;
+        }
+        body {
+            font-family: "Britannic Bold";
+            background-image: url('https://th.bing.com/th/id/R.75c7864105801544a5628a9772394dd1?rik=W%2btcWTJd6SnCfw&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fBlack-Abstract-HD-Wallpaper.jpg&ehk=PTbVfW5weijRZMES0idE3Sl2gQQmZ78G13ImYOchIG8%3d&risl=&pid=ImgRaw&r=0');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.8;
+            background-size: 100% 100%;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #22dcd3;
+        }
+        input[type="submit"] {
+            background-color: #22dcd3;
+            color: #002e32;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 2px 2px;
+            cursor: pointer;
+            height: 50%;
+            width: 100%;
+            border-radius: 5px;
+
+        }
+
+        .form-row {
+            margin-left: 2.5%;
+            height: 60px;
+            width: 30%;
+            margin-left: 2.5%;
+            display: flex; /* Use flexbox to align items */
+            gap: 70%; /* Add some spacing between form elements */
+        }
+
+        .form-row form {
+            flex: 30; /* Allow forms to take up equal space */
+        }
+
+        .announce-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .announce-card {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+            margin: 20px;
+            padding: 20px;
+            width: calc(80% - 40px); /* Adjust the width here */
+            box-sizing: border-box;
+            display: flex;
+        }
+        .announce-card img {
+            width: 300px; /* Adjust the image width here */
+            height: 300px; /* Adjust the image height here */
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .announce-card div {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: calc(100% - 220px); /* Adjust the div width here */
+        }
+        .announce-card div p {
+            display: flex;
+            justify-content: space-between;
+            line-height: 0.7; /* Adjust the line spacing here */
+            margin-bottom: 1px; /* Adjust the space between lines here */
+        }
+        .announce-card h2 {
+            color: #6c757d;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .announce-card p strong {
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+<h1 style="color: #a5defb">Favourite announces</h1>
+<div class="form-row">
+    <form th:action="@{/index/user/} + ${id}" method="post">
+        <input id="logOut" name="newLink" th:value="@{redirect:/announcement/getOthers/} + ${id}" type="hidden">
+        <input type="submit" value="<< Back to announces "/>
+    </form>
+</div>
+<br>
+
+
+<div class="announce-container" th:each="announcement : ${favourite.favouriteAnnouncements}">
+    <div class="announce-card">
+        <img th:src="${announcement.imageURL}" alt="Announcement Image"> <!-- Add your image URL here -->
+        <div>
+            <h2 th:text="${announcement.title}"></h2>
+            <p><strong>ID:</strong> <span th:text="${announcement.id}"></span></p>
+            <p><strong>Description:</strong> <span th:text="${announcement.description}"></span></p>
+            <p><strong>Price:</strong> <span th:text="${announcement.price}"></span></p>
+            <p><strong>Discount:</strong> <span th:text="${announcement.discount}"></span></p>
+            <p><strong>New Price:</strong> <span th:text="${announcement.newPrice}"></span></p>
+            <p><strong>User:</strong> <span th:text="${announcement.user.getFirstName() + ' ' + announcement.user.getLastName()}"></span></p>
+            <p><strong>Category:</strong> <span th:text="${announcement.category.getCategoryName()}"></span></p>
+            <p><strong>Last Update:</strong> <span th:text="${announcement.date}"></span></p>
+            <!-- Add your form and other elements here -->
+            <br>
+        <form th:action="@{/favourite/remove/} + ${id} +@{/} +${announcement.id}" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Remove" onclick="return confirm('Are you sure you want to remove this announcement?');" readonly style="height: 80%"/>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+<p th:text="${message}"></p>
+
+<h5 style="color: #a5defb; margin-left: 10%">________________________________</h5>
+
+<h3 th:text="'Total: ' + ${favourite.total}" style="color: #a5defb; margin-left: 10%"></h3>
+
+<script>
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var path = window.location.pathname; // Get the current URL's path
+        var id = path.split('/').pop();
+
+        var previousUrl = document.referrer; // Get the previous URL
+        var urlToCompare1 = 'http://localhost:8080/announcement/getOthers/' + id;
+        var urlToCompare6 = 'http://localhost:8080/announcement/getOthers/' + id + '?';
+        var urlToCompare2 = 'http://localhost:8080/favourite/get/' + id;
+        var urlToCompare3 = 'http://localhost:8080/favourite/get/' + id + '?';
+        var urlToCompare4 = 'http://localhost:8080/announcement/getMine/' + id;
+        var urlToCompare5 = 'http://localhost:8080/announcement/getMine/' + id + '?';
+        var urlPattern1 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + '\\?categoryName=[^\\/]*$');
+
+        var urlPattern2 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + ';jsessionid=[^\\/]*$');
+        var urlToCompare10 = 'http://localhost:8080/announcement/getOthers/0/' + id + '?';
+        var urlToCompare11 = 'http://localhost:8080/announcement/getOthers/1/' + id + '?';
+        var urlToCompare12 = 'http://localhost:8080/announcement/getOthers/0/' + id;
+        var urlToCompare13 = 'http://localhost:8080/announcement/getOthers/1/' + id;
+
+        console.log('current path: ', path);
+        console.log('previous path: ', previousUrl);
+        console.log('id: ', id);
+
+        if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
+            && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
+            && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
+            && !urlPattern1.test(previousUrl) && !urlPattern2.test(previousUrl)
+
+            && previousUrl !== urlToCompare10 && previousUrl !== urlToCompare11
+            && previousUrl !== urlToCompare12 && previousUrl !== urlToCompare13) {
+            window.location.href = 'http://localhost:8080/index/HomePage';
+        }
+    });
+
+</script>
+
+</body>
+</html>
