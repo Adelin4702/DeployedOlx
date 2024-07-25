@@ -12,6 +12,7 @@
             opacity: 0.8;
             background-size: 100% 100%;
         }
+
         h1 {
             font-family: "Britannic Bold";
             font-size: 50px;
@@ -19,6 +20,7 @@
             align-content: center;
             text-align: center;
         }
+
         .container {
             width: 33%;
             height: 33%;
@@ -29,6 +31,7 @@
             border: 1px solid black;
             border-radius: 4px;
         }
+
         input[type=text], input[type=password] {
             width: 90%;
             height: 60%;
@@ -40,6 +43,7 @@
             /*background: #f1f1f1;*/
             border-radius: 8px;
         }
+
         button {
             background-color: #4CAF50;
             color: white;
@@ -54,8 +58,122 @@
             margin-left: 35%;
             margin-right: 35%;
         }
+
         button:hover {
-            opacity:1;
+            opacity: 1;
+        }
+
+        .modalInsert {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        .modalUpdate {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modalInsert-content {
+            background-color: #a1e1d5;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            text-align: left;
+            width: 70%;
+        }
+
+        /* The Close Button */
+        .close1 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close1:hover,
+        .close1:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .formField {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 95%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #22dcd3;
+        }
+
+        input[type="submit"] {
+            background-color: #22dcd3;
+            color: #002e32;
+            border: none;
+            padding: 3px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 2px 2px;
+            cursor: pointer;
+            height: 50%;
+            width: 100%;
+            border-radius: 5px;
+
+        }
+
+        .form-row {
+            margin-right: 2.5%;
+            margin-left: 2.5%;
+            height: 60px;
+            width: 95%;
+            display: flex; /* Use flexbox to align items */
+            gap: 70%; /* Add some spacing between form elements */
+        }
+
+        .form-row form {
+            flex: 30; /* Allow forms to take up equal space */
         }
     </style>
 </head>
@@ -65,14 +183,93 @@
 <div class="container">
     <form th:action="@{/index/redirectPage}" method="post">
         <label for="userEmail"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" id="userEmail" name="userEmail" required autocomplete="email" >
+        <input type="text" placeholder="Enter Email" id="userEmail" name="userEmail" required autocomplete="email" style="width: 95%">
 
         <label for="userPassword"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" id="userPassword" name="userPassword" required>
+        <input type="password" placeholder="Enter Password" id="userPassword" name="userPassword" required style="width: 95%">
 
         <button type="submit">Login</button>
     </form>
+    <br>
+    <button id="insertBtn" class="button" style="vertical-align:middle"><span>Register</span></button>
+    <br>
+    <div id="modalInsert" class="modalInsert">
+
+        <div class="modalInsert-content">
+            <h2 class="modal-title">Insert new user
+                <span class="close1">&times;</span>
+            </h2>
+            <form class="formField" th:action="@{/user/insert}" method="post">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required><br>
+
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required><br>
+
+                <label for="email">Email: </label>
+                <input type="email" id="email" name="email" required><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+                <br>
+                <label for="role">Choose a role for the new user:</label>
+                <select name="role" id="role">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select><br><br>
+                <input type="submit" value="Register">
+            </form>
+        </div>
+
+    </div>
 </div>
-<p th:text = "${message}"></p>
+<script>
+
+    var modal = document.getElementById("modalInsert");
+    // Get the button that opens the modal
+    var btn = document.getElementById("insertBtn");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close1")[0];
+    // var span1 = document.getElementsByClassName("close")[1];
+
+    var btns = document.getElementsByClassName("updateBtn");
+    var modals = document.getElementsByClassName("modalUpdate");
+    var spans = document.getElementsByClassName("close");
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].onclick = function () {
+            modals[i].style.display = "block";
+        }
+        spans[i].onclick = function () {
+            modals[i].style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target == modals[i]) {
+                modals[i].style.display = "none";
+            }
+        }
+    }
+
+</script>
+<p th:text="${message}"></p>
 </body>
+
 </html>
