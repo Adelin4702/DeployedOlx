@@ -2,8 +2,11 @@ package com.olxapplication.controller;
 
 import com.olxapplication.dtos.AnnouncementDetailsDTO;
 import com.olxapplication.dtos.AnnouncementWebDTO;
+import com.olxapplication.dtos.CategoryDTO;
+import com.olxapplication.dtos.CategoryDetailsDTO;
 import com.olxapplication.service.AnnouncementService;
 
+import com.olxapplication.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +36,7 @@ import java.util.List;
 @Slf4j
 public class AnnouncementController {
     private final AnnouncementService announcementService;
+    private final CategoryService categoryService;
 
     /**
      * Retrieves all announcements.
@@ -42,6 +46,8 @@ public class AnnouncementController {
     public ModelAndView getAnnounces(){
         List<AnnouncementDetailsDTO> dtos = announcementService.findAnnounces();
         ModelAndView mav = new ModelAndView("AdminGetAnnounces");
+        List<CategoryDetailsDTO> categories = categoryService.findCategories();
+        mav.addObject("categories", categories);
         mav.addObject("announces", dtos);
         return mav;
     }
@@ -120,7 +126,9 @@ public class AnnouncementController {
     public ModelAndView getMyAnnouncements(@PathVariable("id") String userId) {
         List<AnnouncementDetailsDTO> dtos = announcementService.findAnnouncementByUserId(userId);
         ModelAndView mav = new ModelAndView("UserGetMyAnnounces");
+        List<CategoryDetailsDTO> categories = categoryService.findCategories();
         mav.addObject("announces", dtos);
+        mav.addObject("categories", categories);
         return mav;
     }
 
