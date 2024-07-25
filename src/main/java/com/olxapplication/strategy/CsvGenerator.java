@@ -33,7 +33,8 @@ public class CsvGenerator implements FileGeneratorStrategy {
             }
             writer.writeAll(data);
             writer.close();
-            return file;
+            File f = new File("Reports/CSV_Report.csv");
+            return f;
 
         } catch (IOException e){
             LOGGER.error(ReportMessages.REPORT_NOT_GENERATED + e.getMessage());

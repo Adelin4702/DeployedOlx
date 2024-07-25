@@ -42,8 +42,8 @@ public class PdfGenerator implements FileGeneratorStrategy{
 
             document.add(table);
             document.close();
-
-            return outputFile;
+            File f = new File("Reports/PDF_Report.pdf");
+            return f;
         } catch (DocumentException | IOException e) {
             LOGGER.error(ReportMessages.REPORT_NOT_GENERATED + e.getMessage());
             return null;

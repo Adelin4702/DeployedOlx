@@ -28,7 +28,8 @@ public class TxtGenerator implements FileGeneratorStrategy{
             }
 
             writer.close();
-            return file;
+            File f = new File("Reports/TXT_Report.txt");
+            return f;
 
         } catch (IOException e) {
             LOGGER.error(ReportMessages.REPORT_NOT_GENERATED + e.getMessage());
