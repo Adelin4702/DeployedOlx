@@ -416,26 +416,27 @@
     document.addEventListener('DOMContentLoaded', function() {
 
         var previousUrl = document.referrer; // Get the previous URL
+        var hostname = window.location.hostname;
 
-        // var urlToCompare1 = 'http://localhost:8080/announcement/get';
-        // var urlToCompare2 = 'http://localhost:8080/category/get';
-        // var urlToCompare3 = 'http://localhost:8080/index/HomePage';
-        //
-        // var urlToCompare4 = 'http://localhost:8080/user/get';
-        // var urlToCompare5 = 'http://localhost:8080/announcement/get?';
-        // var urlToCompare6 = 'http://localhost:8080/category/get?';
-        // var urlToCompare7 = 'http://localhost:8080/index/HomePage?';
-        //
-        // var urlToCompare8 = 'http://localhost:8080/user/get?';
-        // var urlToCompare9 = 'http://localhost:8080/report/generate';
-        //
-        // if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
-        //     && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
-        //     && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
-        //     && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8
-        //     && previousUrl !== urlToCompare9){
-        //     window.location.href = 'http://localhost:8080/index/HomePage';
-        // }
+        var urlToCompare1 = 'https://'+ hostname+ '/announcement/get';
+        var urlToCompare2 = 'https://localhost:8080/category/get';
+        var urlToCompare3 = 'https://localhost:8080/index/HomePage';
+
+        var urlToCompare4 = 'https://localhost:8080/user/get';
+        var urlToCompare5 = 'https://localhost:8080/announcement/get?';
+        var urlToCompare6 = 'https://localhost:8080/category/get?';
+        var urlToCompare7 = 'https://localhost:8080/index/HomePage?';
+
+        var urlToCompare8 = 'https://localhost:8080/user/get?';
+        var urlToCompare9 = 'https://localhost:8080/report/generate';
+
+        if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
+            && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
+            && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
+            && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8
+            && previousUrl !== urlToCompare9){
+            window.location.href = 'https://' + hostname + '/index/HomePage';
+        }
     });
 
 </script>
