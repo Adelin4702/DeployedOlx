@@ -157,34 +157,34 @@
         var path = window.location.pathname; // Get the current URL's path
         var id = path.split('/').pop();
 
-        var previousUrl = document.referrer; // Get the previous URL
-        var urlToCompare1 = 'http://localhost:8080/announcement/getOthers/' + id;
-        var urlToCompare6 = 'http://localhost:8080/announcement/getOthers/' + id + '?';
-        var urlToCompare2 = 'http://localhost:8080/favourite/get/' + id;
-        var urlToCompare3 = 'http://localhost:8080/favourite/get/' + id + '?';
-        var urlToCompare4 = 'http://localhost:8080/announcement/getMine/' + id;
-        var urlToCompare5 = 'http://localhost:8080/announcement/getMine/' + id + '?';
-        var urlPattern1 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + '\\?categoryName=[^\\/]*$');
-
-        var urlPattern2 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + ';jsessionid=[^\\/]*$');
-        var urlToCompare10 = 'http://localhost:8080/announcement/getOthers/0/' + id + '?';
-        var urlToCompare11 = 'http://localhost:8080/announcement/getOthers/1/' + id + '?';
-        var urlToCompare12 = 'http://localhost:8080/announcement/getOthers/0/' + id;
-        var urlToCompare13 = 'http://localhost:8080/announcement/getOthers/1/' + id;
-
-        console.log('current path: ', path);
-        console.log('previous path: ', previousUrl);
-        console.log('id: ', id);
-
-        if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
-            && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
-            && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
-            && !urlPattern1.test(previousUrl) && !urlPattern2.test(previousUrl)
-
-            && previousUrl !== urlToCompare10 && previousUrl !== urlToCompare11
-            && previousUrl !== urlToCompare12 && previousUrl !== urlToCompare13) {
-            window.location.href = 'http://localhost:8080/index/HomePage';
-        }
+        // var previousUrl = document.referrer; // Get the previous URL
+        // var urlToCompare1 = 'http://localhost:8080/announcement/getOthers/' + id;
+        // var urlToCompare6 = 'http://localhost:8080/announcement/getOthers/' + id + '?';
+        // var urlToCompare2 = 'http://localhost:8080/favourite/get/' + id;
+        // var urlToCompare3 = 'http://localhost:8080/favourite/get/' + id + '?';
+        // var urlToCompare4 = 'http://localhost:8080/announcement/getMine/' + id;
+        // var urlToCompare5 = 'http://localhost:8080/announcement/getMine/' + id + '?';
+        // var urlPattern1 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + '\\?categoryName=[^\\/]*$');
+        //
+        // var urlPattern2 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + ';jsessionid=[^\\/]*$');
+        // var urlToCompare10 = 'http://localhost:8080/announcement/getOthers/0/' + id + '?';
+        // var urlToCompare11 = 'http://localhost:8080/announcement/getOthers/1/' + id + '?';
+        // var urlToCompare12 = 'http://localhost:8080/announcement/getOthers/0/' + id;
+        // var urlToCompare13 = 'http://localhost:8080/announcement/getOthers/1/' + id;
+        //
+        // console.log('current path: ', path);
+        // console.log('previous path: ', previousUrl);
+        // console.log('id: ', id);
+        //
+        // if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
+        //     && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
+        //     && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
+        //     && !urlPattern1.test(previousUrl) && !urlPattern2.test(previousUrl)
+        //
+        //     && previousUrl !== urlToCompare10 && previousUrl !== urlToCompare11
+        //     && previousUrl !== urlToCompare12 && previousUrl !== urlToCompare13) {
+        //     window.location.href = 'http://localhost:8080/index/HomePage';
+        // }
     });
 
 </script>
