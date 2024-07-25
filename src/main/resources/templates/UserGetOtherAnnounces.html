@@ -314,6 +314,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         var path = window.location.pathname; // Get the current URL's path
+        var s = window.location.hostname;
+
         // var id = path.split('/').pop();
         // var id1 = id.split('?').at(0);
         //
@@ -337,7 +339,7 @@
         // var urlToCompare12 = 'http://localhost:8080/announcement/getOthers/0/' + id;
         // var urlToCompare13 = 'http://localhost:8080/announcement/getOthers/1/' + id;
         //
-        // console.log('current path: ', path);
+        console.log('hostname: ', s);
         // console.log('previous path: ', previousUrl);
         // console.log('id: ', id);
         // console.log('pattern: ', urlPattern1);
