@@ -107,13 +107,25 @@ public class UserController {
     public ModelAndView updateUser(@PathVariable("id") String userId, @ModelAttribute("user") UserDetailsDTO userDetailsDTO, RedirectAttributes redirectAttributes) {
         String msg = userService.updateUserById(userId, userDetailsDTO);
 
-        UserMailDTO userDTO = new UserMailDTO(userDetailsDTO.getId()
+        // Crearea unui nou UserDto
+        UserMailDTO userMailDTO = new UserMailDTO(userDetailsDTO.getId()
                 , userDetailsDTO.getFirstName()
                 , userDetailsDTO.getLastName()
                 , userDetailsDTO.getEmail()
-                , "update"
-                ,"");
-        rabbitMQSender.send(userDTO);
+                , "update", "");
+
+        // Crearea HttpHeaders și setarea token-ului
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setBearerAuth(userMailDTO.getId() + userMailDTO.getEmail()); // presupunem că token-ul este disponibil
+
+        // Crearea NotificationRequestDto și HttpEntity
+        NotificationRequestDto notificationRequestDto = new NotificationRequestDto(userMailDTO.getId(), userMailDTO.getFirstName() + " " + userMailDTO.getLastName(), userMailDTO.getEmail(), userMailDTO.getAction(), userMailDTO.getFilePath()); // completați cu datele necesare
+        HttpEntity<NotificationRequestDto> entity = new HttpEntity<>(notificationRequestDto, headers);
+
+        // Apelarea metodei restTemplate.exchange
+        ResponseMessageDto response = restTemplate.exchange(URL, HttpMethod.POST, entity, ResponseMessageDto.class).getBody();
+        //System.out.println("!!!!!!!!------------>" + response + "<------------!!!!!!!!");
 
         ModelAndView mav = new ModelAndView("redirect:/user/get");
         redirectAttributes.addFlashAttribute("message", msg);
