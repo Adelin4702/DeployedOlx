@@ -28,7 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Getter
 @AllArgsConstructor
 public class UserController {
-    private static final String URL = "http://localhost:8081/microservice/receiver";
+    private static final String URL = "https://deployedmicroservice.onrender.com/microservice/receiver";
     private final RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private final RabbitMQSender rabbitMQSender;
@@ -71,25 +71,25 @@ public class UserController {
     public ModelAndView insertUser(@ModelAttribute("user") UserDetailsDTO userDetailsDTO, RedirectAttributes redirectAttributes) {
         String msg = userService.insert(userDetailsDTO);
 
-//        // Crearea unui nou UserDto
-//        UserMailDTO userMailDTO = new UserMailDTO(userDetailsDTO.getId()
-//                , userDetailsDTO.getFirstName()
-//                , userDetailsDTO.getLastName()
-//                , userDetailsDTO.getEmail()
-//                , "insert", "");
-//
-//        // Crearea HttpHeaders și setarea token-ului
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//        headers.setBearerAuth(userMailDTO.getId() + userMailDTO.getEmail()); // presupunem că token-ul este disponibil
-//
-//        // Crearea NotificationRequestDto și HttpEntity
-//        NotificationRequestDto notificationRequestDto = new NotificationRequestDto(userMailDTO.getId(), userMailDTO.getFirstName() + " " + userMailDTO.getLastName(), userMailDTO.getEmail(), userMailDTO.getAction(), userMailDTO.getFilePath()); // completați cu datele necesare
-//        HttpEntity<NotificationRequestDto> entity = new HttpEntity<>(notificationRequestDto, headers);
-//
-//        // Apelarea metodei restTemplate.exchange
-//        ResponseMessageDto response = restTemplate.exchange(URL, HttpMethod.POST, entity, ResponseMessageDto.class).getBody();
-//        //System.out.println("!!!!!!!!------------>" + response + "<------------!!!!!!!!");
+        // Crearea unui nou UserDto
+        UserMailDTO userMailDTO = new UserMailDTO(userDetailsDTO.getId()
+                , userDetailsDTO.getFirstName()
+                , userDetailsDTO.getLastName()
+                , userDetailsDTO.getEmail()
+                , "insert", "");
+
+        // Crearea HttpHeaders și setarea token-ului
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setBearerAuth(userMailDTO.getId() + userMailDTO.getEmail()); // presupunem că token-ul este disponibil
+
+        // Crearea NotificationRequestDto și HttpEntity
+        NotificationRequestDto notificationRequestDto = new NotificationRequestDto(userMailDTO.getId(), userMailDTO.getFirstName() + " " + userMailDTO.getLastName(), userMailDTO.getEmail(), userMailDTO.getAction(), userMailDTO.getFilePath()); // completați cu datele necesare
+        HttpEntity<NotificationRequestDto> entity = new HttpEntity<>(notificationRequestDto, headers);
+
+        // Apelarea metodei restTemplate.exchange
+        ResponseMessageDto response = restTemplate.exchange(URL, HttpMethod.POST, entity, ResponseMessageDto.class).getBody();
+        //System.out.println("!!!!!!!!------------>" + response + "<------------!!!!!!!!");
 
         ModelAndView mav = new ModelAndView("redirect:/user/get");
         redirectAttributes.addFlashAttribute("message", msg);
