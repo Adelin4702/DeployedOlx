@@ -282,8 +282,11 @@
             <label for="category">Category:</label>
 <!--            <input type="text" id="category" name="category" required><br>-->
             <select name="category" id="category">
-                <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getCategoryName()}"></option>
+                <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getCategoryName()}" style="font-size: 20px"></option>
             </select>
+
+            <br>
+
             <input type="submit" value="Register">
         </form>
     </div>

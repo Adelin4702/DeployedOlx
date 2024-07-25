@@ -335,7 +335,12 @@
             <input type="text" id="user" name="user" th:value="${id}" required readonly hidden="hidden">
 
             <label for="category">Category:</label>
-            <input type="text" id="category" name="category" required><br>
+<!--            <input type="text" id="category" name="category" required><br>-->
+            <select name="category" id="category">
+                <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getCategoryName()}" style="font-size: 20px"></option>
+            </select>
+
+            <br>
 
             <input type="submit" value="Register">
         </form>
