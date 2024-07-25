@@ -1,8 +1,9 @@
 package com.olxapplication.strategy;
 
+import java.io.File;
 import java.time.YearMonth;
 import java.util.Map;
 
 public interface FileGeneratorStrategy {
-    String generateFile(Map<YearMonth, Integer> map);
+    File generateFile(Map<YearMonth, Integer> map);
 }

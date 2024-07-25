@@ -18,7 +18,7 @@ public class CsvGenerator implements FileGeneratorStrategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(CsvGenerator.class);
 
     @Override
-    public String generateFile(Map<YearMonth, Integer> map) {
+    public File generateFile(Map<YearMonth, Integer> map) {
         File file = new File("Reports/CSV_Report.csv");
 
         try{
@@ -33,11 +33,11 @@ public class CsvGenerator implements FileGeneratorStrategy {
             }
             writer.writeAll(data);
             writer.close();
-            return ReportMessages.REPORT_GENERATED_SUCCESSFULLY;
+            return file;
 
         } catch (IOException e){
             LOGGER.error(ReportMessages.REPORT_NOT_GENERATED + e.getMessage());
-            return ReportMessages.REPORT_NOT_GENERATED + e.getMessage();
+            return null;
         }
     }
 }

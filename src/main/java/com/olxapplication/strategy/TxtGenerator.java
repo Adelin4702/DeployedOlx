@@ -14,7 +14,7 @@ import java.util.Map;
 public class TxtGenerator implements FileGeneratorStrategy{
     private static final Logger LOGGER = LoggerFactory.getLogger(TxtGenerator.class);
 
-    public String generateFile(Map<YearMonth, Integer> map) {
+    public File generateFile(Map<YearMonth, Integer> map) {
 
         File file = new File("Reports/TXT_Report.txt");
 
@@ -28,11 +28,11 @@ public class TxtGenerator implements FileGeneratorStrategy{
             }
 
             writer.close();
-            return ReportMessages.REPORT_GENERATED_SUCCESSFULLY;
+            return file;
 
         } catch (IOException e) {
             LOGGER.error(ReportMessages.REPORT_NOT_GENERATED + e.getMessage());
-            return ReportMessages.REPORT_NOT_GENERATED + e.getMessage();
+            return null;
         }
     }
 }

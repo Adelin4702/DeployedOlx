@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.YearMonth;
 import java.util.*;
 
@@ -69,13 +70,13 @@ public class ReportService {
      * @param fileType The type of file to generate ("csv", "txt", or "pdf").
      * @return A success message if the report is generated, otherwise an error message.
      */
-    public String generateReport(String fileType) {
+    public File generateReport(String fileType) {
         Map<YearMonth, Integer> map = getData(getTimeSortedAnnounces());
 
         StrategyFactory strategyFactory = new StrategyFactory();
         FileGeneratorStrategy fileGeneratorStrategy = strategyFactory.getStrategy(fileType, map);
-        fileGeneratorStrategy.generateFile(map);
-        return ReportMessages.REPORT_GENERATED_SUCCESSFULLY;
+        File file = fileGeneratorStrategy.generateFile(map);
+        return file;
     }
 }
 

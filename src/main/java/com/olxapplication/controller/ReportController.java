@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -56,18 +57,18 @@ public class ReportController {
     @GetMapping("/generate")
     public ModelAndView generateReport(@ModelAttribute("strategy") String strategy, RedirectAttributes redirectAttributes){
         ModelAndView modelAndView = new ModelAndView("redirect:/announcement/get");
-        String msg = reportService.generateReport(strategy);
+        File file = reportService.generateReport(strategy);
 
-        String pathName = "C:\\Users\\prico\\OneDrive\\Desktop\\Faculta\\PS\\A2\\";
-        if(strategy.equals("csv")){
-            pathName += "Reports\\CSV_Report.csv";
-        }
-        if(strategy.equals("pdf")){
-            pathName += "Reports\\PDF_Report.pdf";
-        }
-        if(strategy.equals("txt")){
-            pathName += "Reports\\TXT_Report.txt";
-        }
+//        String pathName = "C:\\Users\\prico\\OneDrive\\Desktop\\Faculta\\PS\\A2\\";
+//        if(strategy.equals("csv")){
+//            pathName += "Reports\\CSV_Report.csv";
+//        }
+//        if(strategy.equals("pdf")){
+//            pathName += "Reports\\PDF_Report.pdf";
+//        }
+//        if(strategy.equals("txt")){
+//            pathName += "Reports\\TXT_Report.txt";
+//        }
 
         User admin = reportService.getAdmin();
 
@@ -77,7 +78,7 @@ public class ReportController {
                 , admin.getLastName()
                 , admin.getEmail()
                 , "report"
-                , pathName);
+                , file);
 
         // Crearea HttpHeaders și setarea token-ului
         HttpHeaders headers = new HttpHeaders();
@@ -85,14 +86,14 @@ public class ReportController {
         headers.setBearerAuth(userMailDTO.getId() + userMailDTO.getEmail()); // presupunem că token-ul este disponibil
 
         // Crearea NotificationRequestDto și HttpEntity
-        NotificationRequestDto notificationRequestDto = new NotificationRequestDto(userMailDTO.getId(), userMailDTO.getFirstName() + " " + userMailDTO.getLastName(), userMailDTO.getEmail(), userMailDTO.getAction(), userMailDTO.getFilePath()); // completați cu datele necesare
+        NotificationRequestDto notificationRequestDto = new NotificationRequestDto(userMailDTO.getId(), userMailDTO.getFirstName() + " " + userMailDTO.getLastName(), userMailDTO.getEmail(), userMailDTO.getAction(), userMailDTO.getFile()); // completați cu datele necesare
         HttpEntity<NotificationRequestDto> entity = new HttpEntity<>(notificationRequestDto, headers);
 
         // Apelarea metodei restTemplate.exchange
         ResponseMessageDto response = restTemplate.exchange(URL, HttpMethod.POST, entity, ResponseMessageDto.class).getBody();
         //System.out.println("!!!!!!!!------------>" + response + "<------------!!!!!!!!");
 
-        redirectAttributes.addFlashAttribute("message", msg);
+//        redirectAttributes.addFlashAttribute("message", msg);
         return modelAndView;
     }
 }

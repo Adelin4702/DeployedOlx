@@ -7,6 +7,7 @@ import com.olxapplication.constants.ReportMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.YearMonth;
@@ -16,10 +17,11 @@ public class PdfGenerator implements FileGeneratorStrategy{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PdfGenerator.class);
 
-    public String generateFile(Map<YearMonth, Integer> map) {
+    public File generateFile(Map<YearMonth, Integer> map) {
         Document document = new Document();
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("Reports/PDF_Report.pdf"));
+            File outputFile = new File("Reports/PDF_Report.pdf");
+            PdfWriter.getInstance(document, new FileOutputStream(outputFile));
             document.open();
 
             Font font = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
@@ -30,7 +32,6 @@ public class PdfGenerator implements FileGeneratorStrategy{
             document.add(new Paragraph(" "));
 
             PdfPTable table = new PdfPTable(2);
-
             table.addCell("Year-Month");
             table.addCell("Number of posted announces");
 
@@ -42,11 +43,10 @@ public class PdfGenerator implements FileGeneratorStrategy{
             document.add(table);
             document.close();
 
-            return ReportMessages.REPORT_GENERATED_SUCCESSFULLY;
-
+            return outputFile;
         } catch (DocumentException | IOException e) {
             LOGGER.error(ReportMessages.REPORT_NOT_GENERATED + e.getMessage());
-            return ReportMessages.REPORT_NOT_GENERATED + e.getMessage();
+            return null;
         }
     }
 }

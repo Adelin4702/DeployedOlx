@@ -2,6 +2,8 @@ package com.olxapplication.dtos;
 
 import lombok.*;
 
+import java.io.File;
+
 /**
  * This Data Transfer Object (DTO) encapsulates detailed information about an user.
  * It's primarily used for data exchange between application layers and APIs.
@@ -17,7 +19,7 @@ public class UserMailDTO {
     private String lastName;
     private String email;
     private String action;
-    private String filePath;
+    private File file;
 
     @Override
     public String toString() {
@@ -27,6 +29,7 @@ public class UserMailDTO {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", action='" + action + '\'' +
+                ", file=" + file +
                 '}';
     }
 }
