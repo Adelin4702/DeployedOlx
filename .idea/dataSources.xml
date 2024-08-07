@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="olxdatabase@ep-tight-truth-a2uc8l44.eu-central-1.aws.neon.tech" uuid="dc6eb460-8cd5-4f91-bf3c-29cf68d18102">
+    <data-source source="LOCAL" name="olxdatabase@ep-tight-truth-a2uc8l44.eu-central-1.aws.neon.tech" uuid="9b816e57-54f4-4cfd-b995-e4a8ea0aee35">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <imported>true</imported>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://ep-tight-truth-a2uc8l44.eu-central-1.aws.neon.tech/olxdatabase?sslmode=require</jdbc-url>
       <jdbc-additional-properties>
