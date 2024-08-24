@@ -68,7 +68,7 @@ public class UserController {
      * @return ModelAndView redirecting to "/user/get".
      * */
     @PostMapping("/insert")
-    public ModelAndView insertUser(@ModelAttribute("user") UserDetailsDTO userDetailsDTO, RedirectAttributes redirectAttributes) {
+    public ModelAndView insertUser(@ModelAttribute("user") UserDetailsDTO userDetailsDTO, RedirectAttributes redirectAttributes, @ModelAttribute("redirection") String redirection) {
         String msg = userService.insert(userDetailsDTO);
 
         // Crearea unui nou UserDto
@@ -91,7 +91,7 @@ public class UserController {
         ResponseMessageDto response = restTemplate.exchange(URL, HttpMethod.POST, entity, ResponseMessageDto.class).getBody();
         //System.out.println("!!!!!!!!------------>" + response + "<------------!!!!!!!!");
 
-        ModelAndView mav = new ModelAndView("redirect:/user/get");
+        ModelAndView mav = new ModelAndView("redirect:" + redirection);
         redirectAttributes.addFlashAttribute("message", msg);
         return mav;
     }
