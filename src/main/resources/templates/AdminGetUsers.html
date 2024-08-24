@@ -257,7 +257,6 @@
     <form th:action="@{/category/get}" method="get">
 <!--        <input id="newLink2" name="newLink" value="redirect:/category/get" type="hidden">-->
 
-        <input id="redirection" name="redirection" value="/user/get">
         <input type="submit" value="Manage Categories >>"/>
     </form>
 </div>
@@ -289,6 +288,8 @@
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
             </select><br><br>
+
+            <input id="redirection" name="redirection" value="/user/get" hidden="hidden">
             <input type="submit" value="Register">
         </form>
     </div>
@@ -400,8 +401,10 @@
         var path = window.location.pathname; // Get the current URL's path
         var hostname = window.location.hostname;
         var id = path.split('/').pop();
-        var urlPattern1 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/update\\/[^\\/]*$');
-        var urlPattern2 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/get;jsessionid=[^\\/]*$');
+        var urlPattern4 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/update\\/[^\\/]*$');
+        var urlPattern1 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/get;jsessionid=[^\\/]*$');
+        var urlPattern2 = new RegExp('^https:\\/\\/' + hostname + '\\/category\\/get;jsessionid=[^\\/]*$');
+        var urlPattern3 = new RegExp('^https:\\/\\/' + hostname + '\\/announcement\\/get;jsessionid=[^\\/]*$');
 
         var previousUrl = document.referrer; // Get the previous URL
 
@@ -423,7 +426,8 @@
             && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
             && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8
             && previousUrl !== urlToCompare9 && previousUrl !== urlToCompare10
-            && !urlPattern1.test(previousUrl)){
+            && !urlPattern1.test(previousUrl) && !urlPattern2.test(previousUrl)
+            && !urlPattern3.test(previousUrl) && !urlPattern4.test(previousUrl)){
             window.location.href = 'https://' + hostname + '/index/HomePage';
         }
     });

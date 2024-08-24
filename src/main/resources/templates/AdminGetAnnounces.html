@@ -435,11 +435,17 @@
         var urlToCompare8 = 'https://' + hostname + '/user/get?';
         var urlToCompare9 = 'https://' + hostname + '/report/generate';
 
+
+        var urlPattern1 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/get;jsessionid=[^\\/]*$');
+        var urlPattern2 = new RegExp('^https:\\/\\/' + hostname + '\\/category\\/get;jsessionid=[^\\/]*$');
+        var urlPattern3 = new RegExp('^https:\\/\\/' + hostname + '\\/announcement\\/get;jsessionid=[^\\/]*$');
+
         if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
             && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
             && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
             && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8
-            && previousUrl !== urlToCompare9){
+            && previousUrl !== urlToCompare9 && !urlPattern1.test(previousUrl)
+            && !urlPattern2.test(previousUrl) && !urlPattern3.test(previousUrl)){
             window.location.href = 'https://' + hostname + '/index/HomePage';
         }
     });

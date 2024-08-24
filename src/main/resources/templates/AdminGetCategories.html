@@ -394,6 +394,9 @@
         var urlToCompare3 = 'https://' + hostname + '/index/HomePage';
 
         var urlToCompare4 = 'https://' + hostname + '/user/get';
+        var urlPattern1 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/get;jsessionid=[^\\/]*$');
+        var urlPattern2 = new RegExp('^https:\\/\\/' + hostname + '\\/category\\/get;jsessionid=[^\\/]*$');
+        var urlPattern3 = new RegExp('^https:\\/\\/' + hostname + '\\/announcement\\/get;jsessionid=[^\\/]*$');
 
         var urlToCompare5 = 'https://' + hostname + '/announcement/get?';
         var urlToCompare6 = 'https://' + hostname + '/category/get?';
@@ -404,7 +407,9 @@
         if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
             && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
             && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
-            && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8){
+            && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8
+            && !urlPattern2.test(previousUrl) && !urlPattern1.test(previousUrl)
+            && !urlPattern3.test(previousUrl)){
             window.location.href = 'https://' + hostname + '/index/HomePage';
         }
     });
