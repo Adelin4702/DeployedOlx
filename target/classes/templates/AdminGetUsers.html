@@ -256,6 +256,7 @@
 
     <form th:action="@{/category/get}" method="get">
 <!--        <input id="newLink2" name="newLink" value="redirect:/category/get" type="hidden">-->
+
         <input type="submit" value="Manage Categories >>"/>
     </form>
 </div>
@@ -287,6 +288,8 @@
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
             </select><br><br>
+
+            <input id="redirection" name="redirection" value="/user/get" hidden="hidden">
             <input type="submit" value="Register">
         </form>
     </div>
@@ -395,33 +398,37 @@
 
 
     document.addEventListener('DOMContentLoaded', function() {
-        // var path = window.location.pathname; // Get the current URL's path
-        // var id = path.split('/').pop();
-        var urlPattern1 = new RegExp('^http:\\/\\/localhost:8080\\/user\\/update\\/[^\\/]*$');
-        var urlPattern2 = new RegExp('^http:\\/\\/localhost:8080\\/user\\/get;jsessionid=[^\\/]*$');
+        var path = window.location.pathname; // Get the current URL's path
+        var hostname = window.location.hostname;
+        var id = path.split('/').pop();
+        var urlPattern4 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/update\\/[^\\/]*$');
+        var urlPattern1 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/get;jsessionid=[^\\/]*$');
+        var urlPattern2 = new RegExp('^https:\\/\\/' + hostname + '\\/category\\/get;jsessionid=[^\\/]*$');
+        var urlPattern3 = new RegExp('^https:\\/\\/' + hostname + '\\/announcement\\/get;jsessionid=[^\\/]*$');
 
         var previousUrl = document.referrer; // Get the previous URL
 
-        var urlToCompare1 = 'http://localhost:8080/announcement/get';
-        var urlToCompare2 = 'http://localhost:8080/category/get';
-        var urlToCompare3 = 'http://localhost:8080/index/HomePage';
+        var urlToCompare1 = 'https://' + hostname + '/announcement/get';
+        var urlToCompare2 = 'https://' + hostname + '/category/get';
+        var urlToCompare3 = 'https://' + hostname + '/index/HomePage';
 
-        var urlToCompare4 = 'http://localhost:8080/user/get';
-        var urlToCompare5 = 'http://localhost:8080/user/insert';
-        var urlToCompare6 = 'http://localhost:8080/rabbitmq/sender';
+        var urlToCompare4 = 'https://' + hostname + '/user/get';
+        var urlToCompare5 = 'https://' + hostname + '/user/insert';
+        var urlToCompare6 = 'https://' + hostname + '/rabbitmq/sender';
 
-        var urlToCompare7 = 'http://localhost:8080/announcement/get?';
-        var urlToCompare8 = 'http://localhost:8080/category/get?';
-        var urlToCompare9 = 'http://localhost:8080/index/HomePage?';
-        var urlToCompare10 = 'http://localhost:8080/user/get?';
+        var urlToCompare7 = 'https://' + hostname + '/announcement/get?';
+        var urlToCompare8 = 'https://' + hostname + '/category/get?';
+        var urlToCompare9 = 'https://' + hostname + '/index/HomePage?';
+        var urlToCompare10 = 'https://' + hostname + '/user/get?';
 
         if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
             && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
             && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
             && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8
             && previousUrl !== urlToCompare9 && previousUrl !== urlToCompare10
-            && !urlPattern1.test(previousUrl)){
-            window.location.href = 'http://localhost:8080/index/HomePage';
+            && !urlPattern1.test(previousUrl) && !urlPattern2.test(previousUrl)
+            && !urlPattern3.test(previousUrl) && !urlPattern4.test(previousUrl)){
+            window.location.href = 'https://' + hostname + '/index/HomePage';
         }
     });
 

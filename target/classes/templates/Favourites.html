@@ -156,21 +156,22 @@
     document.addEventListener('DOMContentLoaded', function() {
         var path = window.location.pathname; // Get the current URL's path
         var id = path.split('/').pop();
+        var hostname = window.location.hostname;
 
         var previousUrl = document.referrer; // Get the previous URL
-        var urlToCompare1 = 'http://localhost:8080/announcement/getOthers/' + id;
-        var urlToCompare6 = 'http://localhost:8080/announcement/getOthers/' + id + '?';
-        var urlToCompare2 = 'http://localhost:8080/favourite/get/' + id;
-        var urlToCompare3 = 'http://localhost:8080/favourite/get/' + id + '?';
-        var urlToCompare4 = 'http://localhost:8080/announcement/getMine/' + id;
-        var urlToCompare5 = 'http://localhost:8080/announcement/getMine/' + id + '?';
-        var urlPattern1 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + '\\?categoryName=[^\\/]*$');
+        var urlToCompare1 = 'https://' + hostname + '/announcement/getOthers/' + id;
+        var urlToCompare6 = 'https://' + hostname + '/announcement/getOthers/' + id + '?';
+        var urlToCompare2 = 'https://' + hostname + '/favourite/get/' + id;
+        var urlToCompare3 = 'https://' + hostname + '/favourite/get/' + id + '?';
+        var urlToCompare4 = 'https://' + hostname + '/announcement/getMine/' + id;
+        var urlToCompare5 = 'https://' + hostname + '/announcement/getMine/' + id + '?';
+        var urlPattern1 = new RegExp('^https:\\/\\/' + hostname + '\\/announcement\\/getOthers\\/' + id + '\\?categoryName=[^\\/]*$');
 
-        var urlPattern2 = new RegExp('^http:\\/\\/localhost:8080\\/announcement\\/getOthers\\/' + id + ';jsessionid=[^\\/]*$');
-        var urlToCompare10 = 'http://localhost:8080/announcement/getOthers/0/' + id + '?';
-        var urlToCompare11 = 'http://localhost:8080/announcement/getOthers/1/' + id + '?';
-        var urlToCompare12 = 'http://localhost:8080/announcement/getOthers/0/' + id;
-        var urlToCompare13 = 'http://localhost:8080/announcement/getOthers/1/' + id;
+        var urlPattern2 = new RegExp('^https:\\/\\/' + hostname + '\\/announcement\\/getOthers\\/' + id + ';jsessionid=[^\\/]*$');
+        var urlToCompare10 = 'https://' + hostname + '/announcement/getOthers/0/' + id + '?';
+        var urlToCompare11 = 'https://' + hostname + '/announcement/getOthers/1/' + id + '?';
+        var urlToCompare12 = 'https://' + hostname + '/announcement/getOthers/0/' + id;
+        var urlToCompare13 = 'https://' + hostname + '/announcement/getOthers/1/' + id;
 
         console.log('current path: ', path);
         console.log('previous path: ', previousUrl);
@@ -183,7 +184,7 @@
 
             && previousUrl !== urlToCompare10 && previousUrl !== urlToCompare11
             && previousUrl !== urlToCompare12 && previousUrl !== urlToCompare13) {
-            window.location.href = 'http://localhost:8080/index/HomePage';
+            window.location.href = 'https://' + hostname + '/index/HomePage';
         }
     });
 

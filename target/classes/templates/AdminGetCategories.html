@@ -387,24 +387,30 @@
     document.addEventListener('DOMContentLoaded', function() {
 
         var previousUrl = document.referrer; // Get the previous URL
+        var hostname = window.location.hostname;
+        
+        var urlToCompare1 = 'https://' + hostname + '/announcement/get';
+        var urlToCompare2 = 'https://' + hostname + '/category/get';
+        var urlToCompare3 = 'https://' + hostname + '/index/HomePage';
 
-        var urlToCompare1 = 'http://localhost:8080/announcement/get';
-        var urlToCompare2 = 'http://localhost:8080/category/get';
-        var urlToCompare3 = 'http://localhost:8080/index/HomePage';
+        var urlToCompare4 = 'https://' + hostname + '/user/get';
+        var urlPattern1 = new RegExp('^https:\\/\\/' + hostname + '\\/user\\/get;jsessionid=[^\\/]*$');
+        var urlPattern2 = new RegExp('^https:\\/\\/' + hostname + '\\/category\\/get;jsessionid=[^\\/]*$');
+        var urlPattern3 = new RegExp('^https:\\/\\/' + hostname + '\\/announcement\\/get;jsessionid=[^\\/]*$');
 
-        var urlToCompare4 = 'http://localhost:8080/user/get';
+        var urlToCompare5 = 'https://' + hostname + '/announcement/get?';
+        var urlToCompare6 = 'https://' + hostname + '/category/get?';
+        var urlToCompare7 = 'https://' + hostname + '/index/HomePage?';
 
-        var urlToCompare5 = 'http://localhost:8080/announcement/get?';
-        var urlToCompare6 = 'http://localhost:8080/category/get?';
-        var urlToCompare7 = 'http://localhost:8080/index/HomePage?';
-
-        var urlToCompare8 = 'http://localhost:8080/user/get?';
+        var urlToCompare8 = 'https://' + hostname + '/user/get?';
 
         if(previousUrl !== urlToCompare1 && previousUrl !== urlToCompare2
             && previousUrl !== urlToCompare3 && previousUrl !== urlToCompare4
             && previousUrl !== urlToCompare5 && previousUrl !== urlToCompare6
-            && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8){
-            window.location.href = 'http://localhost:8080/index/HomePage';
+            && previousUrl !== urlToCompare7 && previousUrl !== urlToCompare8
+            && !urlPattern2.test(previousUrl) && !urlPattern1.test(previousUrl)
+            && !urlPattern3.test(previousUrl)){
+            window.location.href = 'https://' + hostname + '/index/HomePage';
         }
     });
 
